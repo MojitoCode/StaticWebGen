@@ -1,8 +1,11 @@
 class TextNode:
-	def __init__(self, text, text_type, url=None):
+	def __init__(self, text, text_type, url=None, href=None, src=None, alt=None):
 		self.text = text
 		self.text_type = text_type
 		self.url = url
+		self.href = href
+		self.src = src
+		self.alt = alt
 
 	def __eq__(self, other):
 		return (
