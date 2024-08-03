@@ -1,4 +1,4 @@
-from textnode import TextNode, TEXT_TYPE_TEXT, TEXT_TYPE_LINK, TEXT_TYPE_IMAGE
+from textnode import TextNode, TEXT_TYPE_TEXT, TEXT_TYPE_LINK, TEXT_TYPE_IMAGE, TEXT_TYPE_CODE, TEXT_TYPE_BOLD, TEXT_TYPE_ITALIC
 from extract_links import extract_markdown_images, extract_markdown_links
 
 def split_nodes_link(old_nodes):
@@ -39,3 +39,31 @@ def split_nodes_images(old_nodes):
 			if remainder_text:
 				newList.append(TextNode(remainder_text, TEXT_TYPE_TEXT))
 	return newList
+
+
+def split_nodes_bold(old_nodes):
+	sections = []
+	while '**' in old_nodes:
+		before, rest = old_nodes.split('**', 1)
+		bold_text, after = rest.split('**', 1)
+		sections.append(('text', before))
+		sections.append(('bold', bold_text))
+		old_nodes = after
+	if old_nodes:
+		sections.append(('text', old_nodes))
+	return sections
+
+
+def split_nodes_italic(old_text):
+	sections = []
+	while '*' in old_text:
+		before, rest = old_text.split('*', 1)
+		italic_text, after = rest.split('*', 1)
+		sections.append(('text', before))
+		sections.append(('italic', italic_text))
+		old_nodes = after
+	if old_nodes:
+		sections.append(('text', old_nodes))
+	return sections
+
+
